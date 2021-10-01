@@ -8,7 +8,10 @@ const shopRoute = require('./routes/shop');
 const app = express();
 //setting pug template engine global config adding
 //telling express to use pug as view engine to render dynamic content
-app.set('view engine','pug',);
+// app.set('view engine','pug',);
+
+//using ejs template
+app.set('view engine','ejs',);
 
 //where to find our view=> view folder
 app.set('views','views');
