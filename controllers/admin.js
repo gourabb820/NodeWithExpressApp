@@ -5,7 +5,7 @@ exports.getAddProduct = (req,res,next)=>{
     console.log("in the middleware 2");
     // res.sendFile(path.join(__dirname, '../', 'views', 'add-product.html'))
     // res.sendFile(path.join(rootDir, 'views', 'add-product.html'))
-    res.render('add-product', {
+    res.render('admin/add-product', {
          pageTitle:"Add Products",
          path:"/add-product"
         });
@@ -21,22 +21,15 @@ exports.postAddProduct = (req,res,next)=>{
     res.redirect('/');
 }
 
-exports.getProducts = (req,res,next)=>{
-    // console.log("Always run");
-    // res.sendFile(path.join(__dirname, '../', 'views','shop.html'));
-    // console.log('shop ',adminData.products);
-    // const products = adminData.products;
-    // res.sendFile(path.join(rootDir, 'views','shop.html'));
-    //using pug template engine
 
-    const products =  Product.fetchAll((products=>{
-        res.render('shop',{
+exports.getProducts = (req,res,next)=>{
+    Product.fetchAll(products=>{
+        res.render('admin/products',{
             prods:products,
-             pageTitle:'Shop',
-             path:"/"
+             pageTitle:'admin Products',
+             path:"/products"
             });
-    }));
-    
-  
-    // next();//Allows the req to move on the next middleware
+        })
 }
+
+
