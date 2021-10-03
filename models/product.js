@@ -24,6 +24,7 @@ module.exports  = class Product {
 
    save(){
        //saving products in array
+       this.id = Math.random().toString();
        getProductsFromFile(products=>{
         products.push(this);
         fs.writeFile(p, JSON.stringify(products),(err)=>{//converting js obj to json
@@ -55,5 +56,12 @@ module.exports  = class Product {
     //    })
     getProductsFromFile(callback);
        
+   }
+
+   static findById(id, callback){
+       getProductsFromFile(products =>{
+           const product  = products.find( p => p.id ===id );
+           callback(product);
+       })
    }
 }

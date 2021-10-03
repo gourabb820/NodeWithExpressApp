@@ -5,9 +5,10 @@ exports.getAddProduct = (req,res,next)=>{
     console.log("in the middleware 2");
     // res.sendFile(path.join(__dirname, '../', 'views', 'add-product.html'))
     // res.sendFile(path.join(rootDir, 'views', 'add-product.html'))
-    res.render('admin/add-product', {
+    res.render('admin/edit-product', {
          pageTitle:"Add Products",
-         path:"/add-product"
+         path:"/add-product",
+         editing: false
         });
 
     // res.send('<form action="/product" method="POST"><input type="text" name="title"><button type="submit">Add Product</button></form>');
@@ -25,6 +26,33 @@ exports.postAddProduct = (req,res,next)=>{
     res.redirect('/');
 }
 
+exports.getEditProduct = (req,res,next)=>{   
+    const editMode = req.query.edit; 
+    if(!editMode){
+        return res.redirect('/');
+    }
+    const prodId = req.params.productId;
+
+    Product.findById(prodId, product =>{
+        if(!product){
+            return res.redirect('/')
+        }
+        res.render('admin/edit-product', {
+            pageTitle:"Edit Products",
+            path:"/edit-product",
+            editing:editMode,
+            product: product
+           });
+    })
+  
+
+    
+}
+
+
+exports.postEditProducts = (req,res,next)=>{
+    
+}
 
 exports.getProducts = (req,res,next)=>{
     Product.fetchAll(products=>{
