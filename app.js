@@ -30,11 +30,11 @@ app.use(adminRoutes);
 app.use(shopRoute);
 
 //db crud operation
-db.execute('SELECT * from products').then((result)=>{
-    console.log(result[0]);
-   }).catch((err)=>{
-       console.log(err);
-   })
+// db.execute('SELECT * from products').then((result)=>{
+//     console.log(result[0]);
+//    }).catch((err)=>{
+//        console.log(err);
+//    })
    
 
 //handling 404

@@ -9,9 +9,7 @@ exports.getAddProduct = (req,res,next)=>{
          pageTitle:"Add Products",
          path:"/add-product",
          editing: false
-        });
-
-    // res.send('<form action="/product" method="POST"><input type="text" name="title"><button type="submit">Add Product</button></form>');
+        });   
 }
 
 exports.postAddProduct = (req,res,next)=>{
@@ -21,9 +19,12 @@ exports.postAddProduct = (req,res,next)=>{
     const price = req.body.price;
     const description = req.body.description;
     const product =  new Product(null,title,imageUrl,description,price);
-    product.save();
-    // products.push({title: req.body.title})
-    res.redirect('/');
+    product
+    .save()
+    .then((result)=>{
+        res.redirect('/');
+    }).catch(err=>console.log(err));
+    
 }
 
 exports.getEditProduct = (req,res,next)=>{   
@@ -58,7 +59,8 @@ exports.postEditProducts = (req,res,next)=>{
     const updatedimageUrl = req.body.imageUrl;
     const updatedDesc = req.body.description;
     const updatedProduct = new  Product(prodId, updatedTitle,updatedimageUrl,updatedDesc,updatedPrice);
-    console.log(updatedProduct)
+    // console.log(updatedProduct)
+    
     updatedProduct.save();
     res.redirect('/products');
 
