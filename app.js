@@ -7,6 +7,8 @@ const adminRoutes = require('./routes/admin');
 const shopRoute = require('./routes/shop');
 
 const errorController =  require('./controllers/error')
+const db = require('./util/database');
+
 const app = express();
 //setting pug template engine global config adding
 //telling express to use pug as view engine to render dynamic content
@@ -27,7 +29,13 @@ app.use(express.static(path.join(__dirname, 'public')));;
 app.use(adminRoutes);
 app.use(shopRoute);
 
-
+//db crud operation
+db.execute('SELECT * from products').then((result)=>{
+    console.log(result[0]);
+   }).catch((err)=>{
+       console.log(err);
+   })
+   
 
 //handling 404
 app.use('/',errorController.get404);
