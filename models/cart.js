@@ -47,7 +47,6 @@ module.exports = class Cart {
       if(!product){
           return;
       }
-    //   console.log(product)
       const productQty = product.qty;
       updatedCart.products = updatedCart.products.filter(
         prod => prod.id !== id
