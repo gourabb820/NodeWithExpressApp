@@ -7,7 +7,7 @@ const adminRoutes = require('./routes/admin');
 const shopRoute = require('./routes/shop');
 
 const errorController =  require('./controllers/error')
-const db = require('./util/database');
+const sequelize = require('./util/database');
 
 const app = express();
 //setting pug template engine global config adding
@@ -39,6 +39,14 @@ app.use(shopRoute);
 
 //handling 404
 app.use('/',errorController.get404);
+
+// const sequelize = require('./util/database');
+//sync with all model and create table for them
+sequelize.sync().then(result =>{
+    console.log(result)
+}).catch(err=>{
+    console.log(err)
+})
 
 const  server = http.createServer(app);
 
