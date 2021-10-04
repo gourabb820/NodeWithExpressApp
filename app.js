@@ -42,11 +42,11 @@ app.use('/',errorController.get404);
 
 // const sequelize = require('./util/database');
 //sync with all model and create table for them
-sequelize.sync().then(result =>{
-    console.log(result)
-}).catch(err=>{
-    console.log(err)
-})
+// sequelize.sync().then(result =>{
+//     console.log(result)
+// }).catch(err=>{
+//     console.log(err)
+// })
 
 const  server = http.createServer(app);
 
