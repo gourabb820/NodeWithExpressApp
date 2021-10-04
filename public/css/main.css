@@ -127,6 +127,14 @@ form {
   border-color: #ffeb3b;
 }
 
+.image{
+  max-height: 20rem;
+}
+
+.image img {
+  height: 100%;
+}
+
 .backdrop {
   position: fixed;
   top: 0;
