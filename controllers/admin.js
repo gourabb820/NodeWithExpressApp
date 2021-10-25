@@ -1,5 +1,7 @@
 
 const Product = require('../models/product');
+// const mongodb =require('mongodb');
+
 
 exports.getAddProduct = (req,res,next)=>{
     console.log("in the middleware 2");
@@ -18,13 +20,9 @@ exports.postAddProduct = (req,res,next)=>{
     const imageUrl = req.body.imageUrl;
     const price = req.body.price;
     const description = req.body.description;
-    req.user.createProduct({
-    // Product.create({
-        title: title,
-        price: price,
-        imageUrl:imageUrl,
-        description:description
-    }).then(result=>{
+    const product = new Product(title,price,description,imageUrl);
+    product.save()
+    .then(result=>{
         console.log('created product');
         res.redirect('/products')
     }).catch(err=> console.log(err));
@@ -37,10 +35,10 @@ exports.getEditProduct = (req,res,next)=>{
         return res.redirect('/');
     }
     const prodId = req.params.productId;    
-    req.user.getProducts({where:{id:prodId}})
+   Product.findById(prodId)
     // Product.findByPk(prodId)
-    .then( products =>{
-        const product = products[0];
+    .then( product =>{
+        // const product = products[0];
         if(!product){
             return res.redirect('/')
         }
@@ -68,29 +66,23 @@ exports.postEditProducts = (req,res,next)=>{
     const updatedDesc = req.body.description;
     // const updatedProduct = new  Product(prodId, updatedTitle,updatedimageUrl,updatedDesc,updatedPrice);
     // console.log(updatedProduct)
-    Product.findByPk(prodId).then(product=>{
-        product.title = updatedTitle;
-        product.price = updatedPrice;
-        product.imageUrl = updatedimageUrl;
-        product.description = updatedDesc;
-        return product.save();
-        
-    }
-    ).then(result=> res.redirect('/products'))
-    .catch(err=>console.log(err))
+    // Product.findById(prodId).then(product=>{
+        const product = new Product(updatedTitle,updatedPrice,updatedimageUrl,updatedDesc, prodId)
+        product.save()
+        .then(result=> res.redirect('/products'))
+        .catch(err=>console.log(err))
     // updatedProduct.save();
     
 
 }
 
 exports.getProducts = (req,res,next)=>{
-    req.user
-    .getProducts()
+   Product.fetchAll()
     .then(products=>{
         res.render('admin/products',{
             prods:products,
              pageTitle:'admin Products',
-             path:"/products"
+             path:"/add-products"
             });
         })
         .catch(err=> console.log(err))
@@ -99,10 +91,8 @@ exports.getProducts = (req,res,next)=>{
 
 exports.PostDeleteProduct = (req,res,next)=>{
     const prodId = req.body.productId;
-    Product.findByPk(prodId).then(product=>{
-        return  product.destroy();
-    }).then(result=>{
-        console.log(result);
+    Product.deleteById(prodId).then(()=>{
+        console.log('deleted');
         res.redirect('/products');
     }).catch(err=>console.log(err))
    
